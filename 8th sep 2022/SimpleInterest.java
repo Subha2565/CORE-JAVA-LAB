@@ -9,7 +9,7 @@ class SimpleInterest
 	//calling main
 	public static void main(String[] args)
 	{
-	    int time=5;
+	    int time=5; // time is in year
 	    int principal=Integer.parseInt(args[0]);
 		int rateofinterest=Integer.parseInt(args[1]);
 		int simpleinterest=(((Integer.parseInt(args[0]))*(Integer.parseInt(args[1]))*5)/100);
