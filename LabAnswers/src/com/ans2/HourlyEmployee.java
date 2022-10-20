@@ -1,7 +1,14 @@
 package com.ans2;
 
 public class HourlyEmployee extends Employee {
-
+//	void salary2() {
+//		System.out.println("hourly give 100");
+//		System.out.println("hour");
+//		Scanner sc = new Scanner(System.in);
+//		int time = sc.nextInt();
+//		int Salary = time * 100;
+//		System.out.println("salary" + Salary);
+//	}
 	public int hSalary = 800;
 	public int hour = 5;
 
