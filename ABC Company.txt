@@ -1,0 +1,300 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database ABCcompany;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use ABCcompany;
+Database changed
+mysql> create table dept
+    -> (dno int primary key,
+    -> dname varchar(40) not null,
+    -> location varchar(100) not null);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe dept;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| dno      | int          | NO   | PRI | NULL    |       |
+| dname    | varchar(40)  | NO   |     | NULL    |       |
+| location | varchar(100) | NO   |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into dept values(
+    -> 5001,"Tester",Mumbai);
+ERROR 1054 (42S22): Unknown column 'Mumbai' in 'field list'
+mysql> insert into dept values(
+    -> 5001,"Tester","Mumbai");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dept values(
+    -> 5002,"Quality Head","New Delhi");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dept values(
+    -> 5003,"Project Head","Chennai");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept;
++------+--------------+-----------+
+| dno  | dname        | location  |
++------+--------------+-----------+
+| 5001 | Tester       | Mumbai    |
+| 5002 | Quality Head | New Delhi |
+| 5003 | Project Head | Chennai   |
++------+--------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> create table project
+    -> (pno int primary key,
+    -> pname varchar(50) not null,
+    -> budget float(10,2),
+    -> DepartmentNo int,
+    -> foreign key(DepartmentNo) references dept(dno));
+Query OK, 0 rows affected, 1 warning (0.09 sec)
+
+mysql> insert into project values(
+    -> 101,"Java Desktop",15000,5001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(
+    -> 102,"Java Web",20000,5001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(
+    -> 103,"PHP",30000,5002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project values(
+    -> 104,"Python",40000,5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(
+    -> 105,"AWS",50000,5003);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from project;
++-----+--------------+----------+--------------+
+| pno | pname        | budget   | DepartmentNo |
++-----+--------------+----------+--------------+
+| 101 | Java Desktop | 15000.00 |         5001 |
+| 102 | Java Web     | 20000.00 |         5001 |
+| 103 | PHP          | 30000.00 |         5002 |
+| 104 | Python       | 40000.00 |         5002 |
+| 105 | AWS          | 50000.00 |         5003 |
++-----+--------------+----------+--------------+
+5 rows in set (0.00 sec)
+\
+mysql> create table emp
+    -> (eno int primary key,
+    -> ename varchar(60) not null,
+    -> designation varchar(70) not null,
+    -> salary float(10,2),
+    -> productno int,
+    -> foreign key(productno) references project(pno),
+    -> departmentid int,
+    -> foreign key(departmentid) references dept(dno));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+mysql> describe emp
+    -> ;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| eno          | int         | NO   | PRI | NULL    |       |
+| ename        | varchar(60) | NO   |     | NULL    |       |
+| designation  | varchar(70) | NO   |     | NULL    |       |
+| salary       | float(10,2) | YES  |     | NULL    |       |
+| productno    | int         | YES  | MUL | NULL    |       |
+| departmentid | int         | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into emp values(
+    -> 01,"joy","Tester",15000,101,5001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 02,"Subhadip","Quality Analyst",10000,5001);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into emp values(
+    -> 02,"Subhadip","Quality Analyst",10000,102,5001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 03,"subhaam","quality analyst",10000,102,5001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 04,"ruma","Developer",15000,103,5002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 05,"sujoy","Developer",15000,103,5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 06,"souvik","Quality Analyst",10000,104,5002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 07,"sneha","Sinior Developer",15000,104,5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 08,"medha","Developer",15000,104,5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 09,"Arpan","Sinior Developer",25000,105,5003);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 10,"Samarjeet","Manager",25000,105,5003);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++-----+-----------+------------------+----------+-----------+--------------+
+| eno | ename     | designation      | salary   | productno | departmentid |
++-----+-----------+------------------+----------+-----------+--------------+
+|   1 | joy       | Tester           | 15000.00 |       101 |         5001 |
+|   2 | Subhadip  | Quality Analyst  | 10000.00 |       102 |         5001 |
+|   3 | subhaam   | quality analyst  | 10000.00 |       102 |         5001 |
+|   4 | ruma      | Developer        | 15000.00 |       103 |         5002 |
+|   5 | sujoy     | Developer        | 15000.00 |       103 |         5002 |
+|   6 | souvik    | Quality Analyst  | 10000.00 |       104 |         5002 |
+|   7 | sneha     | Sinior Developer | 15000.00 |       104 |         5002 |
+|   8 | medha     | Developer        | 15000.00 |       104 |         5002 |
+|   9 | Arpan     | Sinior Developer | 25000.00 |       105 |         5003 |
+|  10 | Samarjeet | Manager          | 25000.00 |       105 |         5003 |
++-----+-----------+------------------+----------+-----------+--------------+
+10 rows in set (0.00 sec)
+mysql> select *
+    -> from emp JOIN dept
+    -> where departmentid = dno;
++-----+-----------+------------------+----------+-----------+--------------+------+--------------+-----------+
+| eno | ename     | designation      | salary   | productno | departmentid | dno  | dname        | location  |
++-----+-----------+------------------+----------+-----------+--------------+------+--------------+-----------+
+|   1 | joy       | Tester           | 15000.00 |       101 |         5001 | 5001 | Tester       | Mumbai    |
+|   2 | Subhadip  | Quality Analyst  | 10000.00 |       102 |         5001 | 5001 | Tester       | Mumbai    |
+|   3 | subhaam   | quality analyst  | 10000.00 |       102 |         5001 | 5001 | Tester       | Mumbai    |
+|   4 | ruma      | Developer        | 15000.00 |       103 |         5002 | 5002 | Quality Head | New Delhi |
+|   5 | sujoy     | Developer        | 15000.00 |       103 |         5002 | 5002 | Quality Head | New Delhi |
+|   6 | souvik    | Quality Analyst  | 10000.00 |       104 |         5002 | 5002 | Quality Head | New Delhi |
+|   7 | sneha     | Sinior Developer | 15000.00 |       104 |         5002 | 5002 | Quality Head | New Delhi |
+|   8 | medha     | Developer        | 15000.00 |       104 |         5002 | 5002 | Quality Head | New Delhi |
+|   9 | Arpan     | Sinior Developer | 25000.00 |       105 |         5003 | 5003 | Project Head | Chennai   |
+|  10 | Samarjeet | Manager          | 25000.00 |       105 |         5003 | 5003 | Project Head | Chennai   |
++-----+-----------+------------------+----------+-----------+--------------+------+--------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select e.name,e.designation,e.salary,e.productno,d.dname,d,location
+    -> from emp e Join dept d
+    -> where e.departmentid = dno;
+ERROR 1054 (42S22): Unknown column 'e.name' in 'field list'
+mysql> select e.ename,e.designation,e.salary,e.productno,d.dname,d,location
+    -> from emp e Join dept d
+    -> where e.departmentid = dno;
+ERROR 1054 (42S22): Unknown column 'd' in 'field list'
+mysql> select e.ename,e.designation,e.salary,e.productno,d.dname,d.location
+    -> from emp e Join dept d
+    -> where e.departmentid = dno;
++-----------+------------------+----------+-----------+--------------+-----------+
+| ename     | designation      | salary   | productno | dname        | location  |
++-----------+------------------+----------+-----------+--------------+-----------+
+| joy       | Tester           | 15000.00 |       101 | Tester       | Mumbai    |
+| Subhadip  | Quality Analyst  | 10000.00 |       102 | Tester       | Mumbai    |
+| subhaam   | quality analyst  | 10000.00 |       102 | Tester       | Mumbai    |
+| ruma      | Developer        | 15000.00 |       103 | Quality Head | New Delhi |
+| sujoy     | Developer        | 15000.00 |       103 | Quality Head | New Delhi |
+| souvik    | Quality Analyst  | 10000.00 |       104 | Quality Head | New Delhi |
+| sneha     | Sinior Developer | 15000.00 |       104 | Quality Head | New Delhi |
+| medha     | Developer        | 15000.00 |       104 | Quality Head | New Delhi |
+| Arpan     | Sinior Developer | 25000.00 |       105 | Project Head | Chennai   |
+| Samarjeet | Manager          | 25000.00 |       105 | Project Head | Chennai   |
++-----------+------------------+----------+-----------+--------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select e.ename,e.designationd,d.location
+    -> from emp e JOIN dept d
+    -> ;
+ERROR 1054 (42S22): Unknown column 'e.designationd' in 'field list'
+mysql> select e.ename,e.designation,d.location
+    -> from emp e JOIN dept d;
++-----------+------------------+-----------+
+| ename     | designation      | location  |
++-----------+------------------+-----------+
+| joy       | Tester           | Chennai   |
+| joy       | Tester           | New Delhi |
+| joy       | Tester           | Mumbai    |
+| Subhadip  | Quality Analyst  | Chennai   |
+| Subhadip  | Quality Analyst  | New Delhi |
+| Subhadip  | Quality Analyst  | Mumbai    |
+| subhaam   | quality analyst  | Chennai   |
+| subhaam   | quality analyst  | New Delhi |
+| subhaam   | quality analyst  | Mumbai    |
+| ruma      | Developer        | Chennai   |
+| ruma      | Developer        | New Delhi |
+| ruma      | Developer        | Mumbai    |
+| sujoy     | Developer        | Chennai   |
+| sujoy     | Developer        | New Delhi |
+| sujoy     | Developer        | Mumbai    |
+| souvik    | Quality Analyst  | Chennai   |
+| souvik    | Quality Analyst  | New Delhi |
+| souvik    | Quality Analyst  | Mumbai    |
+| sneha     | Sinior Developer | Chennai   |
+| sneha     | Sinior Developer | New Delhi |
+| sneha     | Sinior Developer | Mumbai    |
+| medha     | Developer        | Chennai   |
+| medha     | Developer        | New Delhi |
+| medha     | Developer        | Mumbai    |
+| Arpan     | Sinior Developer | Chennai   |
+| Arpan     | Sinior Developer | New Delhi |
+| Arpan     | Sinior Developer | Mumbai    |
+| Samarjeet | Manager          | Chennai   |
+| Samarjeet | Manager          | New Delhi |
+| Samarjeet | Manager          | Mumbai    |
++-----------+------------------+-----------+
+30 rows in set (0.01 sec)
+
+mysql> select e.ename,e.designation,d.location
+    -> from emp e Join dept d
+    -> where departmentid = dno;
++-----------+------------------+-----------+
+| ename     | designation      | location  |
++-----------+------------------+-----------+
+| joy       | Tester           | Mumbai    |
+| Subhadip  | Quality Analyst  | Mumbai    |
+| subhaam   | quality analyst  | Mumbai    |
+| ruma      | Developer        | New Delhi |
+| sujoy     | Developer        | New Delhi |
+| souvik    | Quality Analyst  | New Delhi |
+| sneha     | Sinior Developer | New Delhi |
+| medha     | Developer        | New Delhi |
+| Arpan     | Sinior Developer | Chennai   |
+| Samarjeet | Manager          | Chennai   |
++-----------+------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select e.ename,e.designation,d.location
+    -> from emp e Join dept d
+    -> where e.designation = "Manager";
++-----------+-------------+-----------+
+| ename     | designation | location  |
++-----------+-------------+-----------+
+| Samarjeet | Manager     | Mumbai    |
+| Samarjeet | Manager     | New Delhi |
+| Samarjeet | Manager     | Chennai   |
++-----------+-------------+-----------+
+3 rows in set (0.00 sec)
