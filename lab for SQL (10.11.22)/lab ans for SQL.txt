@@ -1,0 +1,216 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use emdb;
+Database changed
+mysql> create table student(
+    -> s_roll int primary key,
+    -> s_name varchar(50) not null,
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 4
+mysql> create table student(
+    -> s_roll int primary key,
+    -> s_name varchar(50) not null);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| s_roll | int         | NO   | PRI | NULL    |       |
+| s_name | varchar(50) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.04 sec)
+
+mysql> alter table student add class varchar(20) not null;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| s_roll | int         | NO   | PRI | NULL    |       |
+| s_name | varchar(50) | NO   |     | NULL    |       |
+| class  | varchar(20) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student values(1,"joy",i);
+ERROR 1054 (42S22): Unknown column 'i' in 'field list'
+mysql> insert into student values(1,"joy","i");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values(2,"subha","v");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values(3,"mou","ii");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values(4,"somnath","vi");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values(5,"sujoy","iii");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values(6,"riddhit","iv");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++--------+---------+-------+
+| s_roll | s_name  | class |
++--------+---------+-------+
+|      1 | joy     | i     |
+|      2 | subha   | v     |
+|      3 | mou     | ii    |
+|      4 | somnath | vi    |
+|      5 | sujoy   | iii   |
+|      6 | riddhit | iv    |
++--------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table subject(
+    -> s_class varchar(20) not null,
+    -> subjects varchar(50) noy null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'noy null)' at line 3
+mysql> create table subject(
+    -> s_class varchar(20) not null,
+    -> subjects varchar(50) not null);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc subject;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| s_class  | varchar(20) | NO   |     | NULL    |       |
+| subjects | varchar(50) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into subject values("i","math");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into subject values("vi","science");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into subject values("v","history");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from subject;
++---------+----------+
+| s_class | subjects |
++---------+----------+
+| i       | math     |
+| vi      | science  |
+| v       | history  |
++---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student full join subject;
++--------+---------+-------+---------+----------+
+| s_roll | s_name  | class | s_class | subjects |
++--------+---------+-------+---------+----------+
+|      1 | joy     | i     | v       | history  |
+|      1 | joy     | i     | vi      | science  |
+|      1 | joy     | i     | i       | math     |
+|      2 | subha   | v     | v       | history  |
+|      2 | subha   | v     | vi      | science  |
+|      2 | subha   | v     | i       | math     |
+|      3 | mou     | ii    | v       | history  |
+|      3 | mou     | ii    | vi      | science  |
+|      3 | mou     | ii    | i       | math     |
+|      4 | somnath | vi    | v       | history  |
+|      4 | somnath | vi    | vi      | science  |
+|      4 | somnath | vi    | i       | math     |
+|      5 | sujoy   | iii   | v       | history  |
+|      5 | sujoy   | iii   | vi      | science  |
+|      5 | sujoy   | iii   | i       | math     |
+|      6 | riddhit | iv    | v       | history  |
+|      6 | riddhit | iv    | vi      | science  |
+|      6 | riddhit | iv    | i       | math     |
++--------+---------+-------+---------+----------+
+18 rows in set (0.01 sec)
+
+mysql> select * from student cross join subject;
++--------+---------+-------+---------+----------+
+| s_roll | s_name  | class | s_class | subjects |
++--------+---------+-------+---------+----------+
+|      1 | joy     | i     | v       | history  |
+|      1 | joy     | i     | vi      | science  |
+|      1 | joy     | i     | i       | math     |
+|      2 | subha   | v     | v       | history  |
+|      2 | subha   | v     | vi      | science  |
+|      2 | subha   | v     | i       | math     |
+|      3 | mou     | ii    | v       | history  |
+|      3 | mou     | ii    | vi      | science  |
+|      3 | mou     | ii    | i       | math     |
+|      4 | somnath | vi    | v       | history  |
+|      4 | somnath | vi    | vi      | science  |
+|      4 | somnath | vi    | i       | math     |
+|      5 | sujoy   | iii   | v       | history  |
+|      5 | sujoy   | iii   | vi      | science  |
+|      5 | sujoy   | iii   | i       | math     |
+|      6 | riddhit | iv    | v       | history  |
+|      6 | riddhit | iv    | vi      | science  |
+|      6 | riddhit | iv    | i       | math     |
++--------+---------+-------+---------+----------+
+18 rows in set (0.00 sec)
+
+mysql> select student.s_name,subject.subjects
+    -> from student
+    -> right join subject
+    -> on students.class=subject.s_class;
+ERROR 1054 (42S22): Unknown column 'students.class' in 'on clause'
+mysql> select student.s_name,subject.subjects
+    -> from student
+    -> right join subject
+    -> on student.class=subject.s_class;
++---------+----------+
+| s_name  | subjects |
++---------+----------+
+| joy     | math     |
+| somnath | science  |
+| subha   | history  |
++---------+----------+
+3 rows in set (0.01 sec)
+
+mysql> select student.s_name,subject.subjects
+    -> from student
+    -> left join subject
+    -> on student.class=subject.s_class;
++---------+----------+
+| s_name  | subjects |
++---------+----------+
+| joy     | math     |
+| subha   | history  |
+| mou     | NULL     |
+| somnath | science  |
+| sujoy   | NULL     |
+| riddhit | NULL     |
++---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select student.s_name,subject.subjects
+    -> from student
+    -> inner join subject
+    -> on student.class=subject.s_class;
++---------+----------+
+| s_name  | subjects |
++---------+----------+
+| joy     | math     |
+| subha   | history  |
+| somnath | science  |
++---------+----------+
+3 rows in set (0.00 sec)
+
+mysql>
